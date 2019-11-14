@@ -65,7 +65,7 @@ func buildText(n *html.Node) string {
 	for c := n.FirstChild; c != nil; c = c.NextSibling {
 		text += buildText(c)
 	}
-	return text
+	return strings.Join(strings.Fields(text), " ")
 }
 
 // trimHash slices a hash # from the link
