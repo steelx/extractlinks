@@ -2,10 +2,6 @@
 extractlinks GO package for extracting anchor links from HTML
 
 
-## Install
-`go get -u github.com/steelx/extractlinks`
-
-
 Extracts all anchor links from a HTML page into an Array of `[]Link`
 ```
 type Link struct {
@@ -13,6 +9,9 @@ type Link struct {
 	Text string
 }
 ```
+
+## Install
+`go get -u github.com/steelx/extractlinks`
 
 
 ## Example
