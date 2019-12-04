@@ -1,3 +1,5 @@
+[![Actions Status](https://github.com/steelx/extractlinks/workflows/go/badge.svg)](https://github.com/steelx/extractlinks/actions)
+
 # extractlinks
 extractlinks GO package for extracting anchor links from HTML
 
@@ -9,6 +11,9 @@ type Link struct {
 	Text string
 }
 ```
+
+## Install
+`go get -u github.com/steelx/extractlinks`
 
 
 ## Example
