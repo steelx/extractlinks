@@ -30,7 +30,23 @@ func All(htmlBody io.Reader) ([]Link, error) {
 		links = append(links, buildLink(n))
 	}
 
+	links = removeDuplicateLinks(links)
 	return links, nil
+}
+
+// removeDuplicateLinks removed repeated href Links
+func removeDuplicateLinks(links []Link) []Link {
+	var (
+		check      = make(map[string]int)
+		cleanLinks []Link
+	)
+	for _, n := range links {
+		if val := check[n.Href]; val == 0 {
+			check[n.Href] = 1
+			cleanLinks = append(cleanLinks, n)
+		}
+	}
+	return cleanLinks
 }
 
 func buildNodes(n *html.Node) []*html.Node {
@@ -48,7 +64,7 @@ func buildNodes(n *html.Node) []*html.Node {
 func buildLink(n *html.Node) (link Link) {
 	for _, attr := range n.Attr {
 		if attr.Key == "href" {
-			link.Href = trimHash(attr.Val)
+			link.Href = removeTrailingSlash(trimHash(attr.Val))
 		}
 	}
 
@@ -81,4 +97,9 @@ func trimHash(l string) string {
 		return l[:index]
 	}
 	return l
+}
+
+// removeTrailingSlash removes `/` from tail-end
+func removeTrailingSlash(path string) string {
+	return strings.TrimRight(path, "/")
 }

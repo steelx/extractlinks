@@ -9,12 +9,14 @@ func TestAll(t *testing.T) {
 	htmlBody := strings.NewReader(`
 		<html>
 		<body>
-		  <h1>Hello!</h1>
-		  <a href="/another-page">
-			A link to
-			<span>internal page</span>
-		  </a>
-		  <a href="https://jsfuncc.com">A link to external page</a>
+		    <h1>Hello!</h1>
+			<a href="/another-page">
+				A link to
+				<span>internal page</span>
+			</a>
+		    <a href="https://ajinkya.com/about/">Link with slash</a>
+			<a href="https://ajinkya.com/about">Same link without slash</a>
+			<a href="https://youtube.com/jsfunc/">A link to external page</a>
 		</body>
 		</html>
 	`)
@@ -25,8 +27,8 @@ func TestAll(t *testing.T) {
 		t.Error("Err should be nil")
 	}
 
-	if len(links) != 2 {
-		t.Error("Links count should be 2")
+	if len(links) != 3 {
+		t.Error("Links count should be 3, we are removing duplicates")
 	}
 
 	for i, link := range links {
@@ -40,12 +42,22 @@ func TestAll(t *testing.T) {
 		}
 
 		if i == 1 {
-			if link.Href != "https://jsfuncc.com" {
+			//since we are removing trailing slash
+			if link.Href != "https://ajinkya.com/about" {
 				t.Error("Anchor link href is invalid")
 			}
-			if link.Text != "A link to external page" {
+			if link.Text != "Link with slash" {
 				t.Error("Anchor link text is invalid")
 			}
 		}
+	}
+}
+
+func TestRemoveTrailingSlash(t *testing.T) {
+	href := "https://ajinkya.js.org/about/"
+	cleanHref := removeTrailingSlash(href)
+
+	if strings.Compare(cleanHref, "https://ajinkya.js.org/about") != 0 {
+		t.Error("Trailing slash should be removed")
 	}
 }
